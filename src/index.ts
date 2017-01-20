@@ -1,11 +1,30 @@
-import {
-    FunctionCallMetric, InlineFunctionCallMetric, NonOptimizedFunctionCallMetric,
-    NativeCallMetric, NativeApplyMetric
-} from './meters/calls';
 import {Group} from './common/Group';
+import {
+    ObjectKeysMetric,
+    ForInOnlyKeysMetric,
+    ForInOnlyKeysGenericMetric,
+    ObjectKeyValuesMetric,
+    ForInGenericMetric,
+    ForInGenericPreoptimizedMetric,
+    ForInGenericWithHashTableMetric,
+    ForInGenericWithHashTablePreoptimizedMetric,
+    ObjectKeyValuesHashtableMetric,
+    ForInGenericHashTablePreoptimizeMetric,
+    ForInGenericHashTableMetric,
+    ForInOnlyKeysHashTableMetric
+} from './meters/objectKeys';
 import {EmptyMetric} from './meters/empty';
 import {
-    PlainObject5CreateMetric, PlainObject10CreateMetric, ConstructorObjectCreateMetric,
+    InlineFunctionCallMetric,
+    FunctionCallMetric,
+    NativeCallMetric,
+    NativeApplyMetric,
+    NonOptimizedFunctionCallMetric
+} from './meters/calls';
+import {
+    PlainObject5CreateMetric,
+    PlainObject10CreateMetric,
+    ConstructorObjectCreateMetric,
     ConstructorObject10CreateMetric
 } from './meters/objects';
 const groups: Group[] = [];
@@ -27,6 +46,28 @@ groups.push(new Group('objects', [
     new PlainObject10CreateMetric(),
     new ConstructorObjectCreateMetric(),
     new ConstructorObject10CreateMetric(),
+]));
+
+groups.push(new Group('objectKeys', [
+    new ObjectKeysMetric(),
+    new ObjectKeyValuesMetric(),
+
+    new ForInOnlyKeysMetric(),
+    new ForInOnlyKeysGenericMetric(),
+
+    new ForInGenericMetric(),
+    new ForInGenericPreoptimizedMetric(),
+
+    new ForInGenericWithHashTableMetric(),
+    new ForInGenericWithHashTablePreoptimizedMetric(),
+]));
+
+
+groups.push(new Group('objectKeys in hashtable', [
+    new ObjectKeyValuesHashtableMetric(),
+    new ForInOnlyKeysHashTableMetric(),
+    new ForInGenericHashTableMetric(),
+    new ForInGenericHashTablePreoptimizeMetric(),
 ]));
 
 const PxPerNs = 5;
