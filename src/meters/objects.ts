@@ -1,6 +1,21 @@
 import {Metric} from '../common/Metric';
 import {perfStart, perfEnd} from '../common/performance';
 
+export class PlainObject0CreateMetric implements Metric {
+    name = 'object{}';
+    timing = Infinity;
+
+    run() {
+        const start = perfStart();
+        let ret;
+        for (let i = 0; i < 1e6; i++) {
+            ret = {};
+        }
+        const dur = perfEnd(start);
+        this.timing = Math.min(this.timing, dur);
+        return ret;
+    }
+}
 export class PlainObject5CreateMetric implements Metric {
     name = 'object{a,b,c,d,e}';
     timing = Infinity;

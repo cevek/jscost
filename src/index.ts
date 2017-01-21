@@ -22,12 +22,20 @@ import {
     NonOptimizedFunctionCallMetric
 } from './meters/calls';
 import {
+    PlainObject0CreateMetric,
     PlainObject5CreateMetric,
     PlainObject10CreateMetric,
     ConstructorObjectCreateMetric,
     ConstructorObject10CreateMetric
 } from './meters/objects';
+import {
+    WriteNamedKeyToEmptyObjectMetric, WriteNumVarKeyToEmptyObjectMetric,
+    WriteStrVarKeyToEmptyObjectMetric, WriteNumStrVarKeyToEmptyObjectMetric, WriteNumStrVarKeyToEmptyConstructorMetric,
+    WriteNumStrVarKeyToEmptyHashTableMetric,
+} from './meters/createObjectProps';
 const groups: Group[] = [];
+
+
 
 groups.push(new Group('common', [
     new EmptyMetric(),
@@ -42,10 +50,20 @@ groups.push(new Group('functions', [
 ]));
 
 groups.push(new Group('objects', [
+    new PlainObject0CreateMetric(),
     new PlainObject5CreateMetric(),
     new PlainObject10CreateMetric(),
     new ConstructorObjectCreateMetric(),
     new ConstructorObject10CreateMetric(),
+]));
+
+groups.push(new Group('create objects 10 props', [
+    new WriteNamedKeyToEmptyObjectMetric(),
+    new WriteStrVarKeyToEmptyObjectMetric(),
+    new WriteNumVarKeyToEmptyObjectMetric(),
+    new WriteNumStrVarKeyToEmptyObjectMetric(),
+    new WriteNumStrVarKeyToEmptyConstructorMetric(),
+    new WriteNumStrVarKeyToEmptyHashTableMetric(),
 ]));
 
 groups.push(new Group('objectKeys', [
@@ -61,7 +79,6 @@ groups.push(new Group('objectKeys', [
     new ForInGenericWithHashTableMetric(),
     new ForInGenericWithHashTablePreoptimizedMetric(),
 ]));
-
 
 groups.push(new Group('objectKeys in hashtable', [
     new ObjectKeyValuesHashtableMetric(),

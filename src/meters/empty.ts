@@ -11,7 +11,7 @@ export class EmptyMetric implements Metric {
         for (let i = 0; i < 1e6; i++) {
             ret = i;
         }
-        const dur = perfEnd(start) / 10;
+        const dur = perfEnd(start);
         this.timing = Math.min(this.timing, dur);
         return ret;
     }
