@@ -9,7 +9,7 @@ export class ObjectKeysMetric implements Metric {
         const obj = {ad: 1, b: 2, c: 3, d: true, e: "4"};
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = Object.keys(obj);
         }
         const dur = perfEnd(start);
@@ -35,7 +35,7 @@ export class ObjectKeyValuesMetric implements Metric {
         }
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = keyValues(obj)
         }
         const dur = perfEnd(start);
@@ -63,7 +63,7 @@ export class ForInOnlyKeysMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -101,7 +101,7 @@ export class ForInOnlyKeysGenericMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -132,7 +132,7 @@ export class ForInGenericMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -167,7 +167,7 @@ export class ForInGenericWithHashTableMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -200,7 +200,7 @@ export class ForInGenericPreoptimizedMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -235,7 +235,7 @@ export class ForInGenericWithHashTablePreoptimizedMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -268,7 +268,7 @@ export class ObjectKeyValuesHashtableMetric implements Metric {
         }
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = keyValues(obj)
         }
         const dur = perfEnd(start);
@@ -300,7 +300,7 @@ export class ForInGenericHashTableMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -328,7 +328,7 @@ export class ForInOnlyKeysHashTableMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
@@ -362,7 +362,7 @@ export class ForInGenericHashTablePreoptimizeMetric implements Metric {
         const start = perfStart();
         let ret;
 
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e6 / 5; i++) {
             ret = forIn(obj);
         }
         const dur = perfEnd(start);
