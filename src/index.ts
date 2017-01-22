@@ -11,8 +11,8 @@ import {
 } from './meters/readKey';
 import {
     ReadArrayDirectIndexMetric, ReadArrayDynamicIndexMetric,
-    ReadGrownArrayDirectIndexMetric, ReadUint8ArrayDynamicIndexMetric,
-    ReadArrayDynamicIndexMixedValueMetric, ReadUint16ArrayDynamicIndexMetric, ReadArrayDirectIndexGenericMetric
+    ReadUint8ArrayDynamicIndexMetric,
+    ReadArrayDynamicIndexMixedValueMetric, ReadUint16ArrayDynamicIndexMetric
 } from './meters/readArray';
 import {Metric} from './common/Metric';
 const groups: Group[] = [];
@@ -22,8 +22,6 @@ const groups: Group[] = [];
 
 groups.push(new Group('readArray', [
     ReadArrayDirectIndexMetric,
-    ReadGrownArrayDirectIndexMetric,
-    ReadArrayDirectIndexGenericMetric,
     ReadArrayDynamicIndexMetric,
     ReadArrayDynamicIndexMixedValueMetric,
     ReadUint8ArrayDynamicIndexMetric,
