@@ -1,45 +1,51 @@
 import {Group} from './common/Group';
 import {
-    ObjectKeysMetric,
-    ForInOnlyKeysMetric,
-    ForInOnlyKeysGenericMetric,
-    ObjectKeyValuesMetric,
-    ForInGenericMetric,
-    ForInGenericPreoptimizedMetric,
-    ForInGenericWithHashTableMetric,
-    ForInGenericWithHashTablePreoptimizedMetric,
-    ObjectKeyValuesHashtableMetric,
-    ForInGenericHashTablePreoptimizeMetric,
-    ForInGenericHashTableMetric,
-    ForInOnlyKeysHashTableMetric
-} from './meters/objectKeys';
-import {EmptyMetric} from './meters/empty';
+    ReadKeyMetric,
+    ReadGenericDirectKeyMetric,
+    ReadDirectKeyFromMutatedObjectMetric,
+    ReadDynamicKeyObjectMetric,
+    ReadDynamicGenericKeyObjectMetric,
+    ReadDynamicNonExistentKeyObjectMetric,
+    ReadGenericDirectNonExistKeyMetric, ReadDynamicHashtableNonExistsKeyObjectMetric,
+    ReadDynamicHashtableKeyObjectMetric
+} from './meters/readKey';
 import {
-    InlineFunctionCallMetric,
-    FunctionCallMetric,
-    NativeCallMetric,
-    NativeApplyMetric,
-    NonOptimizedFunctionCallMetric
-} from './meters/calls';
-import {
-    PlainObject0CreateMetric,
-    PlainObject5CreateMetric,
-    PlainObject10CreateMetric,
-    ConstructorObjectCreateMetric,
-    ConstructorObject10CreateMetric
-} from './meters/createObjects';
-import {
-    WriteNamedKeyToEmptyObjectMetric, WriteNumVarKeyToEmptyObjectMetric,
-    WriteStrVarKeyToEmptyObjectMetric, WriteNumStrVarKeyToEmptyObjectMetric, WriteNumStrVarKeyToEmptyConstructorMetric,
-    WriteNumStrVarKeyToEmptyHashTableMetric,
-} from './meters/createObjectProps';
+    ReadArrayDirectIndexMetric, ReadArrayDynamicIndexMetric,
+    ReadGrownArrayDirectIndexMetric, ReadUint8ArrayDynamicIndexMetric,
+    ReadArrayDynamicIndexMixedValueMetric, ReadUint16ArrayDynamicIndexMetric, ReadArrayDirectIndexGenericMetric
+} from './meters/readArray';
+import {Metric} from './common/Metric';
 const groups: Group[] = [];
 
+// const m = new ReadArrayDirectIndexMetric();
 
 
+groups.push(new Group('readArray', [
+    ReadArrayDirectIndexMetric,
+    ReadGrownArrayDirectIndexMetric,
+    ReadArrayDirectIndexGenericMetric,
+    ReadArrayDynamicIndexMetric,
+    ReadArrayDynamicIndexMixedValueMetric,
+    ReadUint8ArrayDynamicIndexMetric,
+    ReadUint16ArrayDynamicIndexMetric,
+]));/*
+groups.push(new Group('readKey', [
+    new ReadKeyMetric(),
+    new ReadGenericDirectKeyMetric(),
+    new ReadGenericDirectNonExistKeyMetric(),
+    new ReadDirectKeyFromMutatedObjectMetric(),
+    new ReadDynamicKeyObjectMetric(),
+    new ReadDynamicGenericKeyObjectMetric(),
+    new ReadDynamicHashtableKeyObjectMetric(),
+    new ReadDynamicNonExistentKeyObjectMetric(),
+    new ReadDynamicHashtableNonExistsKeyObjectMetric(),
+]));*/
+/*
 groups.push(new Group('common', [
     new EmptyMetric(),
 ]));
+
+
 
 groups.push(new Group('functions', [
     new InlineFunctionCallMetric(),
@@ -85,7 +91,12 @@ groups.push(new Group('objectKeys in hashtable (per key)', [
     new ForInOnlyKeysHashTableMetric(),
     new ForInGenericHashTableMetric(),
     new ForInGenericHashTablePreoptimizeMetric(),
-]));
+]));*/
+
+function runner(metric: Metric) {
+    const dur = metric.run();
+    metric.timing = Math.min(metric.timing || Infinity, dur);
+}
 
 const PxPerNs = 5;
 const SymbolsPerNs = 1;
@@ -99,7 +110,7 @@ function run() {
             const metric = group.metrics[j];
             for (let k = 0; k < 5; k++) {
                 const runMetric = () => {
-                    metric.run();
+                    runner(metric);
                     runCounter--;
                     if (runCounter === 0) {
                         done();
@@ -130,6 +141,11 @@ function leftPad(str: number | string, count: number, sym: string = ' ') {
     return s + str;
 }
 
+function prepareTime(timing: number) {
+    let time = Math.max(0, (!timing || timing === Infinity) ? 0 : timing);
+    return time < 5 ? (Math.round(time * 10) / 10) : Math.round(time);
+}
+
 function doneNode() {
     let out = '';
     for (let i = 0; i < groups.length; i++) {
@@ -137,9 +153,8 @@ function doneNode() {
         out += `${leftPad(' ' + group.name, 53, '-')} ---------|\n`;
         for (let j = 0; j < group.metrics.length; j++) {
             const metric = group.metrics[j];
-            const timing = (!metric.timing || metric.timing === Infinity) ? 0 : metric.timing;
-            const roundTiming = Math.round(timing);
-            out += `   ${leftPad(metric.name, 50)}:${leftPad(roundTiming, 4)}ns   |${'*'.repeat(roundTiming * SymbolsPerNs)}\n`;
+            const timing = prepareTime(metric.timing);
+            out += `   ${leftPad(metric.name, 50)}:${leftPad(timing, 4)}ns   |${'*'.repeat(timing * SymbolsPerNs)}\n`;
         }
         out += '\n';
     }
@@ -153,9 +168,8 @@ function doneHTML() {
         html += `<details open>\n<summary>${group.name}</summary>\n`;
         for (let j = 0; j < group.metrics.length; j++) {
             const metric = group.metrics[j];
-            const timing = (!metric.timing || metric.timing === Infinity) ? 0 : metric.timing;
-            const roundTiming = Math.round(timing);
-            html += `<div class="metric"><span>${metric.name}: ${roundTiming}ns</span>\n<div class="meter" style="width: ${timing * PxPerNs}px"></div></div>\n`;
+            const timing = prepareTime(metric.timing);
+            html += `<div class="metric"><span>${metric.name}: ${timing}ns</span>\n<div class="meter" style="width: ${timing * PxPerNs}px"></div></div>\n`;
         }
         html += '</details>\n';
     }

@@ -1,5 +1,5 @@
 export interface Metric {
     name: string;
-    timing: number;
-    run: () => void;
+    timing?: number;
+    run: () => number;
 }
