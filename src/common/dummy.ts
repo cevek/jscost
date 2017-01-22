@@ -1,0 +1,3 @@
+export function dummy(val: any) {
+    //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
+}
