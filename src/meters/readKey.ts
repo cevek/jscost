@@ -1,34 +1,38 @@
-import {Metric} from '../common/Metric';
 import {perfStart, perfEnd} from '../common/performance';
+import {ifs} from './common';
 
-export class ReadKeyMetric implements Metric {
-    name = 'obj.a';
-    timing = Infinity;
+export namespace ReadKeyMetric {
+    export const name = 'obj.a';
 
-    run() {
-        function readDirectKey(obj: any) {
-            return obj.a + obj.b + obj.c + obj.d + obj.e +obj.f + obj.j + obj.k +obj.l + obj.m;
+
+    function readDirectKey(obj: any) {
+        return obj.a + obj.b + obj.c + obj.d + obj.e + obj.f + obj.j + obj.k + obj.l + obj.m;
+    }
+
+    function loop(obj: any, obj2: any, N: number, k: number) {
+        let ret = 0;
+        for (let i = 0; i < N; i++) {
+            ret = readDirectKey(k == -1 ? obj : obj2);
         }
+        return ret;
+    }
+
+    export function run() {
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
-        let ret = 0;
-        for (let i = 0; i < 1e6; i++) {
-            ret = readDirectKey(obj);
-        }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        loop(obj, obj, 1e5, 1);
+        return perfEnd(start) - ifs.dur / 10;
     }
 }
 
-export class ReadGenericDirectKeyMetric implements Metric {
-    name = 'obj.a generic';
-    timing = Infinity;
+export namespace ReadGenericDirectKeyMetric {
+    export const name = 'obj.a generic';
 
-    run() {
-        function readGenericDirectKey(obj: any) {
-            return obj.a + obj.b + obj.c + obj.d + obj.e +obj.f + obj.j + obj.k +obj.l + obj.m;
-        }
+    function readGenericDirectKey(obj: any) {
+        return obj.a + obj.b + obj.c + obj.d + obj.e + obj.f + obj.j + obj.k + obj.l + obj.m;
+    }
+
+    export function run() {
         readGenericDirectKey({a: 1});
         readGenericDirectKey({b: 1});
         readGenericDirectKey({c: 1});
@@ -37,24 +41,21 @@ export class ReadGenericDirectKeyMetric implements Metric {
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret = readGenericDirectKey(obj);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
+export namespace ReadGenericDirectNonExistKeyMetric {
+    export const name = 'obj.x(non exists) generic';
 
-export class ReadGenericDirectNonExistKeyMetric implements Metric {
-    name = 'obj.x(non exists) generic';
-    timing = Infinity;
+    function readGenericNonExistsDirectKey(obj: any) {
+        return obj.a1;
+    }
 
-    run() {
-        function readGenericNonExistsDirectKey(obj: any) {
-            return obj.a1;
-        }
+    export function run() {
         readGenericNonExistsDirectKey({a: 1});
         readGenericNonExistsDirectKey({b: 1});
         readGenericNonExistsDirectKey({c: 1});
@@ -66,18 +67,19 @@ export class ReadGenericDirectNonExistKeyMetric implements Metric {
         for (let i = 0; i < 1e6; i++) {
             ret = readGenericNonExistsDirectKey(obj);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
+export namespace ReadDirectKeyFromMutatedObjectMetric {
+    export const name = 'obj.a mutated';
 
-export class ReadDirectKeyFromMutatedObjectMetric implements Metric {
-    name = 'obj.a mutated';
-    timing = Infinity;
+    function readMutatedDirectKey(obj: any) {
+        return obj.a + obj.b + obj.c + obj.d + obj.e + obj.f + obj.j + obj.k + obj.l + obj.m;
+    }
 
-    run() {
-        const A:any = function A(){};
+    const A: any = function A() {};
+
+    export function run() {
         const obj = new A();
         obj.a = 1;
         obj.b = 1;
@@ -90,9 +92,7 @@ export class ReadDirectKeyFromMutatedObjectMetric implements Metric {
         obj.l = 1;
         obj.m = 1;
 
-        function readMutatedDirectKey(obj: any) {
-            return obj.a + obj.b + obj.c + obj.d + obj.e +obj.f + obj.j + obj.k +obj.l + obj.m;
-        }
+
         readMutatedDirectKey({a: 1});
         readMutatedDirectKey({b: 1});
         readMutatedDirectKey({c: 1});
@@ -100,28 +100,29 @@ export class ReadDirectKeyFromMutatedObjectMetric implements Metric {
         readMutatedDirectKey({e: 1});
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret = readMutatedDirectKey(obj);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
+export namespace ReadDynamicKeyObjectMetric {
 
-export class ReadDynamicKeyObjectMetric implements Metric {
-    name = 'obj[prop]';
-    timing = Infinity;
+    export const name = 'obj[prop]';
 
-    run() {
-        function readProp(obj: any, prop: string) {
-            return obj[prop];
-        }
+
+    function readProp(obj: any, prop: string) {
+        return obj[prop];
+    }
+
+    export function run() {
+
+
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
         let ret = 0;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += readProp(obj, 'a');
             ret += readProp(obj, 'b');
             ret += readProp(obj, 'c');
@@ -133,20 +134,17 @@ export class ReadDynamicKeyObjectMetric implements Metric {
             ret += readProp(obj, 'l');
             ret += readProp(obj, 'm');
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
+export namespace ReadDynamicGenericKeyObjectMetric {
+    export const name = 'obj[prop] generic';
 
-export class ReadDynamicGenericKeyObjectMetric implements Metric {
-    name = 'obj[prop] generic';
-    timing = Infinity;
+    function readProp(obj: any, prop: string) {
+        return obj[prop];
+    }
 
-    run() {
-        function readProp(obj: any, prop: string) {
-            return obj[prop];
-        }
+    export function run() {
         readProp({a: 1}, 'a');
         readProp({b: 1}, 'b');
         readProp({c: 1}, 'c');
@@ -156,7 +154,7 @@ export class ReadDynamicGenericKeyObjectMetric implements Metric {
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
         let ret = 0;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += readProp(obj, 'a');
             ret += readProp(obj, 'b');
             ret += readProp(obj, 'c');
@@ -168,24 +166,23 @@ export class ReadDynamicGenericKeyObjectMetric implements Metric {
             ret += readProp(obj, 'l');
             ret += readProp(obj, 'm');
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
+export namespace ReadDynamicNonExistentKeyObjectMetric {
+    export const name = 'obj[non exist prop]';
 
-export class ReadDynamicNonExistentKeyObjectMetric implements Metric {
-    name = 'obj[non exist prop]';
-    timing = Infinity;
+    function readProp(obj: any, prop: string) {
+        return obj[prop];
+    }
 
-    run() {
-        function readProp(obj: any, prop: string) {
-            return obj[prop];
-        }
+    export function run() {
+
+
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret = readProp(obj, 'a1');
             ret = readProp(obj, 'b1');
             ret = readProp(obj, 'c1');
@@ -197,25 +194,24 @@ export class ReadDynamicNonExistentKeyObjectMetric implements Metric {
             ret = readProp(obj, 'l1');
             ret = readProp(obj, 'm1');
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
+export namespace ReadDynamicHashtableKeyObjectMetric {
+    export const name = 'obj[prop] hashtable';
 
-export class ReadDynamicHashtableKeyObjectMetric implements Metric {
-    name = 'obj[prop] hashtable';
-    timing = Infinity;
+    function readProp(obj: any, prop: string) {
+        return obj[prop];
+    }
 
-    run() {
-        function readProp(obj: any, prop: string) {
-            return obj[prop];
-        }
+    export function run() {
+
+
         const obj = {x: 1, adgde: 1, sdfgsb: 2, erc: 3, trd: 4, eewr: 5, sdfgf: 6, jrte: 7, kret: 8, ldte: 9, mytr: 0};
         delete obj.x;
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret = readProp(obj, 'adgde');
             ret = readProp(obj, 'sdfgsb');
             ret = readProp(obj, 'erc');
@@ -227,24 +223,24 @@ export class ReadDynamicHashtableKeyObjectMetric implements Metric {
             ret = readProp(obj, 'ldte');
             ret = readProp(obj, 'mytr');
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
-export class ReadDynamicHashtableNonExistsKeyObjectMetric implements Metric {
-    name = 'obj[non exist prop] hashtable';
-    timing = Infinity;
 
-    run() {
-        function readProp(obj: any, prop: string) {
-            return obj[prop];
-        }
+export namespace ReadDynamicHashtableNonExistsKeyObjectMetric {
+    export const name = 'obj[non exist prop] hashtable';
+
+    function readProp(obj: any, prop: string) {
+        return obj[prop];
+    }
+
+    export function run() {
+
         const obj = {x: 1, a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         delete obj.x;
         const start = perfStart();
         let ret;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret = readProp(obj, 'a1');
             ret = readProp(obj, 'b1');
             ret = readProp(obj, 'c1');
@@ -256,8 +252,6 @@ export class ReadDynamicHashtableNonExistsKeyObjectMetric implements Metric {
             ret = readProp(obj, 'l1');
             ret = readProp(obj, 'm1');
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }

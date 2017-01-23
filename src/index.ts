@@ -17,78 +17,82 @@ import {
 import {Metric} from './common/Metric';
 const groups: Group[] = [];
 
-// const m = new ReadArrayDirectIndexMetric();
+// const m = ReadArrayDirectIndexMetric();
 
 
+/*
 groups.push(new Group('readArray', [
     ReadArrayDirectIndexMetric,
     ReadArrayDynamicIndexMetric,
     ReadArrayDynamicIndexMixedValueMetric,
     ReadUint8ArrayDynamicIndexMetric,
     ReadUint16ArrayDynamicIndexMetric,
-]));/*
+]));
+*/
+
+
 groups.push(new Group('readKey', [
-    new ReadKeyMetric(),
-    new ReadGenericDirectKeyMetric(),
-    new ReadGenericDirectNonExistKeyMetric(),
-    new ReadDirectKeyFromMutatedObjectMetric(),
-    new ReadDynamicKeyObjectMetric(),
-    new ReadDynamicGenericKeyObjectMetric(),
-    new ReadDynamicHashtableKeyObjectMetric(),
-    new ReadDynamicNonExistentKeyObjectMetric(),
-    new ReadDynamicHashtableNonExistsKeyObjectMetric(),
-]));*/
+    ReadKeyMetric,
+    ReadGenericDirectKeyMetric,
+    ReadGenericDirectNonExistKeyMetric,
+    ReadDirectKeyFromMutatedObjectMetric,
+    ReadDynamicKeyObjectMetric,
+    ReadDynamicGenericKeyObjectMetric,
+    ReadDynamicHashtableKeyObjectMetric,
+    ReadDynamicNonExistentKeyObjectMetric,
+    ReadDynamicHashtableNonExistsKeyObjectMetric,
+]));
 /*
 groups.push(new Group('common', [
-    new EmptyMetric(),
+    EmptyMetric,
 ]));
 
 
 
 groups.push(new Group('functions', [
-    new InlineFunctionCallMetric(),
-    new FunctionCallMetric(),
-    new NativeCallMetric(),
-    new NativeApplyMetric(),
-    new NonOptimizedFunctionCallMetric(),
+    InlineFunctionCallMetric,
+    FunctionCallMetric,
+    NativeCallMetric,
+    NativeApplyMetric,
+    NonOptimizedFunctionCallMetric,
 ]));
 
 groups.push(new Group('create objects', [
-    new PlainObject0CreateMetric(),
-    new PlainObject5CreateMetric(),
-    new PlainObject10CreateMetric(),
-    new ConstructorObjectCreateMetric(),
-    new ConstructorObject10CreateMetric(),
+    PlainObject0CreateMetric,
+    PlainObject5CreateMetric,
+    PlainObject10CreateMetric,
+    ConstructorObjectCreateMetric,
+    ConstructorObject10CreateMetric,
 ]));
 
 groups.push(new Group('create objects 10 props (per key)', [
-    new WriteNamedKeyToEmptyObjectMetric(),
-    new WriteStrVarKeyToEmptyObjectMetric(),
-    new WriteNumVarKeyToEmptyObjectMetric(),
-    new WriteNumStrVarKeyToEmptyObjectMetric(),
-    new WriteNumStrVarKeyToEmptyConstructorMetric(),
-    new WriteNumStrVarKeyToEmptyHashTableMetric(),
+    WriteNamedKeyToEmptyObjectMetric,
+    WriteStrVarKeyToEmptyObjectMetric,
+    WriteNumVarKeyToEmptyObjectMetric,
+    WriteNumStrVarKeyToEmptyObjectMetric,
+    WriteNumStrVarKeyToEmptyConstructorMetric,
+    WriteNumStrVarKeyToEmptyHashTableMetric,
 ]));
 
 groups.push(new Group('read objectKeysValues (per key)', [
-    new ObjectKeysMetric(),
-    new ObjectKeyValuesMetric(),
+    ObjectKeysMetric,
+    ObjectKeyValuesMetric,
 
-    new ForInOnlyKeysMetric(),
-    new ForInOnlyKeysGenericMetric(),
+    ForInOnlyKeysMetric,
+    ForInOnlyKeysGenericMetric,
 
-    new ForInGenericMetric(),
-    new ForInGenericPreoptimizedMetric(),
+    ForInGenericMetric,
+    ForInGenericPreoptimizedMetric,
 
-    new ForInGenericWithHashTableMetric(),
-    new ForInGenericWithHashTablePreoptimizedMetric(),
+    ForInGenericWithHashTableMetric,
+    ForInGenericWithHashTablePreoptimizedMetric,
 ]));
 
 groups.push(new Group('objectKeys in hashtable (per key)', [
-    new ObjectKeyValuesHashtableMetric(),
-    new ForInOnlyKeysHashTableMetric(),
-    new ForInGenericHashTableMetric(),
-    new ForInGenericHashTablePreoptimizeMetric(),
+    ObjectKeyValuesHashtableMetric,
+    ForInOnlyKeysHashTableMetric,
+    ForInGenericHashTableMetric,
+    ForInGenericHashTablePreoptimizeMetric,
 ]));*/
 
 function runner(metric: Metric) {
