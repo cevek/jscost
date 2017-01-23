@@ -56,15 +56,39 @@ import {
     ForInGenericHashTablePreoptimizeMetric
 } from './meters/objectKeys';
 import {
-    CreateEmptyArrayMetric, Create10NumberArrayMetric, Create8MixedArrayMetric,
-    Create10MixedArrayMetric, Create10MixedGrownArrayMetric, Create10MixedGrownOnlyObjArrayMetric,
-    Create10EmptyNewArrayMetric, Create10MixedNewArrayMetric, Create10Uint8Metric, Create10Uint32Metric,
-    Create10MixedPrimitivesArrayMetric, Create10NumberUndefinedObjArrayMetric, Create10NumberVarArrayMetric
+    CreateEmptyArrayMetric,
+    Create10NumberArrayMetric,
+    Create8MixedArrayMetric,
+    Create10MixedArrayMetric,
+    Create10MixedGrownArrayMetric,
+    Create10MixedGrownOnlyObjArrayMetric,
+    Create10EmptyNewArrayMetric,
+    Create10MixedNewArrayMetric,
+    Create10Uint8Metric,
+    Create10Uint32Metric,
+    Create10MixedPrimitivesArrayMetric,
+    Create10NumberUndefinedObjArrayMetric,
+    Create10NumberVarArrayMetric
 } from './meters/createArrays';
+import {If, Switch, AndOperator, OrOperator, condition, IfElse, conditionLikeSwitch} from './meters/conditionals';
 const groups: Group[] = [];
 
 // const m = ReadArrayDirectIndexMetric();
 
+groups.push(new Group('common', [
+    EmptyMetric,
+]));
+
+
+groups.push(new Group('conditionals', [
+    If,
+    IfElse,
+    Switch,
+    AndOperator,
+    OrOperator,
+    conditionLikeSwitch,
+    condition
+]));
 
 
 groups.push(new Group('readKey', [
@@ -77,9 +101,6 @@ groups.push(new Group('readKey', [
     ReadDynamicHashtableKeyObjectMetric,
     ReadDynamicNonExistentKeyObjectMetric,
     ReadDynamicHashtableNonExistsKeyObjectMetric,
-]));
-groups.push(new Group('common', [
-    EmptyMetric,
 ]));
 
 
@@ -152,7 +173,6 @@ groups.push(new Group('createArray', [
     Create10Uint8Metric,
     Create10Uint32Metric,
 ]));
-
 
 function runner(metric: Metric) {
     const dur = metric.run();

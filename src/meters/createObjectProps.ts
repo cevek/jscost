@@ -1,7 +1,7 @@
 import {perfStart, perfEnd} from '../common/performance';
 
 export namespace WriteNamedKeyToEmptyObjectMetric {
-    export const name = '{}.key=1';
+    export const name = 'obj.key=1';
 
     function setDirectKeys(obj: any, i: number) {
         obj.k1 = i;
@@ -18,8 +18,6 @@ export namespace WriteNamedKeyToEmptyObjectMetric {
     }
 
     export function run() {
-
-
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
@@ -31,7 +29,7 @@ export namespace WriteNamedKeyToEmptyObjectMetric {
 }
 
 export namespace WriteNumVarKeyToEmptyObjectMetric {
-    export const name = '{}[9]=1';
+    export const name = 'obj[numProp]=1';
 
     function setNumVar(obj: any, key: number, val: number) {
         obj[key] = val;
@@ -62,7 +60,7 @@ export namespace WriteNumVarKeyToEmptyObjectMetric {
 }
 
 export namespace WriteStrVarKeyToEmptyObjectMetric {
-    export const name = '{}["adgrde"]=1';
+    export const name = 'obj[strProp]=1';
 
     function setNumVar(obj: any, key: string, val: number) {
         obj[key] = val;
@@ -92,7 +90,7 @@ export namespace WriteStrVarKeyToEmptyObjectMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyObjectMetric {
-    export const name = '{}["adgrde" | 4]=1';
+    export const name = 'obj[strProp | numProp]=1';
 
     function setNumVar(obj: any, key: string | number, val: number) {
         obj[key] = val;
@@ -123,7 +121,7 @@ export namespace WriteNumStrVarKeyToEmptyObjectMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyConstructorMetric {
-    export const name = 'new A()["adgrde" | 4]=1';
+    export const name = 'obj = new A(); obj[strProp | numProp]=1';
     const A: any = function A() {}
 
     function setNumVar(obj: any, key: string | number, val: number) {
@@ -156,7 +154,7 @@ export namespace WriteNumStrVarKeyToEmptyConstructorMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyHashTableMetric {
-    export const name = '{}["adgrde" | 4]=1 hashtable';
+    export const name = 'obj[strProp | numProp]=1 hashtable';
 
     function setNumVar(obj: any, key: string | number, val: number) {
         obj[key] = val;

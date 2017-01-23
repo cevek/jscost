@@ -77,7 +77,7 @@ export namespace Create10MixedArrayMetric {
 }
 
 export namespace Create10MixedGrownArrayMetric {
-    export const name = '[0-9] grown, mixed';
+    export const name = '[] grow 0->9, mixed';
 
     export function run() {
         const obj = {};
@@ -131,7 +131,7 @@ export namespace Create10NumberUndefinedObjArrayMetric {
 }
 
 export namespace Create10MixedGrownOnlyObjArrayMetric {
-    export const name = '[0-9] set only vars, mixed';
+    export const name = '[0-9] primitives + set 5 vars, mixed';
 
     export function run() {
         const obj = {};

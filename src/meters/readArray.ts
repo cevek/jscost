@@ -1,8 +1,8 @@
 import {perfEnd, perfStart} from '../common/performance';
-import {ifs} from './common';
+import {condition} from './conditionals';
 
 
-const ifsDur = ifs.dur;
+const ifsDur = condition.dur;
 
 export namespace ReadArrayDirectIndexMetric {
     export const name = 'arr[1]';

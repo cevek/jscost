@@ -61,7 +61,7 @@ export namespace InlineFunctionCallMetric {
 export namespace NonOptimizedFunctionCallMetric {
     export const name = 'non optimized function call';
 
-    function nonOptFnCall(n: any) {
+    function nonOptFnCall(n: number) {
         //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
         arguments[0] = 1;
         return n;

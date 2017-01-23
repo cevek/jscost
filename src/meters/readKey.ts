@@ -1,9 +1,8 @@
 import {perfStart, perfEnd} from '../common/performance';
-import {ifs} from './common';
+import {condition} from './conditionals';
 
 export namespace ReadKeyMetric {
     export const name = 'obj.a';
-
 
     function readDirectKey(obj: any) {
         return obj.a + obj.b + obj.c + obj.d + obj.e + obj.f + obj.j + obj.k + obj.l + obj.m;
@@ -21,7 +20,7 @@ export namespace ReadKeyMetric {
         const obj = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, j: 7, k: 8, l: 9, m: 0};
         const start = perfStart();
         loop(obj, obj, 1e5, 1);
-        return perfEnd(start) - ifs.dur / 10;
+        return perfEnd(start) - condition.dur / 10;
     }
 }
 
