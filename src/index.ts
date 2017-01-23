@@ -55,9 +55,16 @@ import {
     ForInGenericHashTableMetric,
     ForInGenericHashTablePreoptimizeMetric
 } from './meters/objectKeys';
+import {
+    CreateEmptyArrayMetric, Create10NumberArrayMetric, Create8MixedArrayMetric,
+    Create10MixedArrayMetric, Create10MixedGrownArrayMetric, Create10MixedGrownOnlyObjArrayMetric,
+    Create10EmptyNewArrayMetric, Create10MixedNewArrayMetric, Create10Uint8Metric, Create10Uint32Metric,
+    Create10MixedPrimitivesArrayMetric, Create10NumberUndefinedObjArrayMetric, Create10NumberVarArrayMetric
+} from './meters/createArrays';
 const groups: Group[] = [];
 
 // const m = ReadArrayDirectIndexMetric();
+
 
 
 groups.push(new Group('readKey', [
@@ -128,6 +135,22 @@ groups.push(new Group('readArray', [
     ReadArrayDynamicIndexMixedValueMetric,
     ReadUint8ArrayDynamicIndexMetric,
     ReadUint16ArrayDynamicIndexMetric,
+]));
+
+groups.push(new Group('createArray', [
+    CreateEmptyArrayMetric,
+    Create10NumberArrayMetric,
+    Create10NumberVarArrayMetric,
+    Create10MixedPrimitivesArrayMetric,
+    Create8MixedArrayMetric,
+    Create10MixedArrayMetric,
+    Create10NumberUndefinedObjArrayMetric,
+    Create10MixedGrownArrayMetric,
+    Create10MixedGrownOnlyObjArrayMetric,
+    Create10EmptyNewArrayMetric,
+    Create10MixedNewArrayMetric,
+    Create10Uint8Metric,
+    Create10Uint32Metric,
 ]));
 
 
