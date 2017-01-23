@@ -90,7 +90,7 @@ export namespace WriteStrVarKeyToEmptyObjectMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyObjectMetric {
-    export const name = 'obj[strProp | numProp]=1';
+    export const name = 'obj[strProp|numProp]=1';
 
     function setNumVar(obj: any, key: string | number, val: number) {
         obj[key] = val;
@@ -121,7 +121,7 @@ export namespace WriteNumStrVarKeyToEmptyObjectMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyConstructorMetric {
-    export const name = 'obj = new A(); obj[strProp | numProp]=1';
+    export const name = 'obj = new A(); obj[prop]=1';
     const A: any = function A() {}
 
     function setNumVar(obj: any, key: string | number, val: number) {
@@ -154,7 +154,7 @@ export namespace WriteNumStrVarKeyToEmptyConstructorMetric {
 }
 
 export namespace WriteNumStrVarKeyToEmptyHashTableMetric {
-    export const name = 'obj[strProp | numProp]=1 hashtable';
+    export const name = 'obj[prop]=1 hashtable';
 
     function setNumVar(obj: any, key: string | number, val: number) {
         obj[key] = val;

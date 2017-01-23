@@ -74,10 +74,10 @@ import {If, Switch, AndOperator, OrOperator, condition, IfElse, conditionLikeSwi
 const groups: Group[] = [];
 
 // const m = ReadArrayDirectIndexMetric();
-
+/*
 groups.push(new Group('common', [
     EmptyMetric,
-]));
+]));*/
 
 
 groups.push(new Group('conditionals', [
@@ -89,7 +89,6 @@ groups.push(new Group('conditionals', [
     conditionLikeSwitch,
     condition
 ]));
-
 
 groups.push(new Group('readKey', [
     ReadKeyMetric,
@@ -137,17 +136,17 @@ groups.push(new Group('read objectKeysValues (per key)', [
     ForInOnlyKeysGenericMetric,
 
     ForInGenericMetric,
-    ForInGenericPreoptimizedMetric,
+    // ForInGenericPreoptimizedMetric,
 
     ForInGenericWithHashTableMetric,
-    ForInGenericWithHashTablePreoptimizedMetric,
+    // ForInGenericWithHashTablePreoptimizedMetric,
 ]));
 
 groups.push(new Group('objectKeys in hashtable (per key)', [
     ObjectKeyValuesHashtableMetric,
     ForInOnlyKeysHashTableMetric,
     ForInGenericHashTableMetric,
-    ForInGenericHashTablePreoptimizeMetric,
+    // ForInGenericHashTablePreoptimizeMetric,
 ]));
 
 groups.push(new Group('readArray', [
@@ -207,6 +206,7 @@ function run() {
 function done() {
     if (typeof window === 'object') {
         doneHTML();
+        doneMD();
     } else {
         doneNode();
     }
@@ -240,6 +240,24 @@ function doneNode() {
         out += '\n';
     }
     console.log(out);
+}
+
+function doneMD() {
+    let md = 'https://github.com/cevek/jscost\n<pre>';
+    for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
+        md += `<h2>${group.name}</h2>\n`;
+        for (let j = 0; j < group.metrics.length; j++) {
+            const metric = group.metrics[j];
+            const timing = prepareTime(metric.timing);
+            const code = metric.run.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            // md += `<div><img src="http://placehold.it/${timing * PxPerNs}x5/87cefa/?text=+"></div>\n<details><summary>${metric.name}: ${timing}ns</summary>\n<pre>${code}</pre>\n</details>\n`;
+            md += `${metric.name}: ${timing}ns\n<img src="http://placehold.it/${timing * PxPerNs}x10/87cefa/?text=+">\n`;
+        }
+        md += '\n';
+    }
+    md += '</pre>';
+    console.log('markdown\n', md);
 }
 
 function doneHTML() {

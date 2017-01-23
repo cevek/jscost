@@ -46,7 +46,7 @@ export namespace PlainObject5CreateMetric {
 }
 
 export namespace PlainObject10CreateMetric {
-    export const name = 'object{a,b,c,d,e,f,g,h,i,j}';
+    export const name = '{a,b,c,d,e,f,g,h,i,j}';
 
     export function run() {
         const start = perfStart();

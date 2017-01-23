@@ -1,7 +1,7 @@
 import {perfStart, perfEnd} from '../common/performance';
 
 export namespace CreateEmptyArrayMetric {
-    export const name = '[]';
+    export const name = 'empty array';
 
     export function run() {
         const start = perfStart();
