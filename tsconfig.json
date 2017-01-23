@@ -9,6 +9,7 @@
       "dom"
     ],
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "sourceMap": false
   },
   "files": [

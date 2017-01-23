@@ -6,29 +6,58 @@ import {
     ReadDynamicKeyObjectMetric,
     ReadDynamicGenericKeyObjectMetric,
     ReadDynamicNonExistentKeyObjectMetric,
-    ReadGenericDirectNonExistKeyMetric, ReadDynamicHashtableNonExistsKeyObjectMetric,
+    ReadGenericDirectNonExistKeyMetric,
+    ReadDynamicHashtableNonExistsKeyObjectMetric,
     ReadDynamicHashtableKeyObjectMetric
 } from './meters/readKey';
 import {
-    ReadArrayDirectIndexMetric, ReadArrayDynamicIndexMetric,
+    ReadArrayDirectIndexMetric,
+    ReadArrayDynamicIndexMetric,
     ReadUint8ArrayDynamicIndexMetric,
-    ReadArrayDynamicIndexMixedValueMetric, ReadUint16ArrayDynamicIndexMetric
+    ReadArrayDynamicIndexMixedValueMetric,
+    ReadUint16ArrayDynamicIndexMetric
 } from './meters/readArray';
 import {Metric} from './common/Metric';
+import {
+    InlineFunctionCallMetric,
+    FunctionCallMetric,
+    NativeCallMetric,
+    NativeApplyMetric,
+    NonOptimizedFunctionCallMetric
+} from './meters/calls';
+import {EmptyMetric} from './meters/common';
+import {
+    PlainObject0CreateMetric,
+    PlainObject5CreateMetric,
+    PlainObject10CreateMetric,
+    ConstructorObjectCreateMetric,
+    ConstructorObject10CreateMetric
+} from './meters/createObjects';
+import {
+    WriteNamedKeyToEmptyObjectMetric,
+    WriteStrVarKeyToEmptyObjectMetric,
+    WriteNumVarKeyToEmptyObjectMetric,
+    WriteNumStrVarKeyToEmptyObjectMetric,
+    WriteNumStrVarKeyToEmptyConstructorMetric,
+    WriteNumStrVarKeyToEmptyHashTableMetric
+} from './meters/createObjectProps';
+import {
+    ObjectKeysMetric,
+    ObjectKeyValuesMetric,
+    ForInOnlyKeysMetric,
+    ForInOnlyKeysGenericMetric,
+    ForInGenericMetric,
+    ForInGenericPreoptimizedMetric,
+    ForInGenericWithHashTableMetric,
+    ForInGenericWithHashTablePreoptimizedMetric,
+    ObjectKeyValuesHashtableMetric,
+    ForInOnlyKeysHashTableMetric,
+    ForInGenericHashTableMetric,
+    ForInGenericHashTablePreoptimizeMetric
+} from './meters/objectKeys';
 const groups: Group[] = [];
 
 // const m = ReadArrayDirectIndexMetric();
-
-
-/*
-groups.push(new Group('readArray', [
-    ReadArrayDirectIndexMetric,
-    ReadArrayDynamicIndexMetric,
-    ReadArrayDynamicIndexMixedValueMetric,
-    ReadUint8ArrayDynamicIndexMetric,
-    ReadUint16ArrayDynamicIndexMetric,
-]));
-*/
 
 
 groups.push(new Group('readKey', [
@@ -42,11 +71,9 @@ groups.push(new Group('readKey', [
     ReadDynamicNonExistentKeyObjectMetric,
     ReadDynamicHashtableNonExistsKeyObjectMetric,
 ]));
-/*
 groups.push(new Group('common', [
     EmptyMetric,
 ]));
-
 
 
 groups.push(new Group('functions', [
@@ -93,7 +120,16 @@ groups.push(new Group('objectKeys in hashtable (per key)', [
     ForInOnlyKeysHashTableMetric,
     ForInGenericHashTableMetric,
     ForInGenericHashTablePreoptimizeMetric,
-]));*/
+]));
+
+groups.push(new Group('readArray', [
+    ReadArrayDirectIndexMetric,
+    ReadArrayDynamicIndexMetric,
+    ReadArrayDynamicIndexMixedValueMetric,
+    ReadUint8ArrayDynamicIndexMetric,
+    ReadUint16ArrayDynamicIndexMetric,
+]));
+
 
 function runner(metric: Metric) {
     const dur = metric.run();

@@ -1,19 +1,19 @@
-import {Metric} from '../common/Metric';
 import {perfStart, perfEnd} from '../common/performance';
 
-export class FunctionCallMetric implements Metric {
-    name = 'function call';
-    timing = Infinity;
+export namespace FunctionCallMetric {
+    export const name = 'function call';
 
-    run() {
-        function call(n: number) {
-            //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
-            return n;
-        }
+    function call(n: number) {
+        //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
+        return n;
+    }
+
+
+    export function run() {
 
         const start = perfStart();
         let ret = 0;
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += call(i);
             ret -= call(ret);
             ret += call(ret);
@@ -25,25 +25,24 @@ export class FunctionCallMetric implements Metric {
             ret += call(ret);
             ret -= call(ret);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
 
-export class InlineFunctionCallMetric implements Metric {
-    name = 'inline function call';
-    timing = Infinity;
+export namespace InlineFunctionCallMetric {
+    export const name = 'inline function call';
 
-    run() {
-        function call(n: number) {
-            return n;
-        }
+    function call(n: number) {
+        return n;
+    }
+
+    export function run() {
+
 
         let ret = 0;
         const start = perfStart();
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += call(i);
             ret -= call(ret);
             ret += call(ret);
@@ -55,27 +54,25 @@ export class InlineFunctionCallMetric implements Metric {
             ret += call(ret);
             ret -= call(ret);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class NonOptimizedFunctionCallMetric implements Metric {
-    name = 'non optimized function call';
-    timing = Infinity;
+export namespace NonOptimizedFunctionCallMetric {
+    export const name = 'non optimized function call';
 
-    run() {
-        //todo:
-        function nonOptFnCall(n: any) {
-            //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
-            arguments[0] = 1;
-            return n;
-        }
+    function nonOptFnCall(n: any) {
+        //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
+        arguments[0] = 1;
+        return n;
+    }
+
+    export function run() {
+
 
         let ret = 0;
         const start = perfStart();
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += nonOptFnCall(i);
             ret -= nonOptFnCall(ret);
             ret += nonOptFnCall(ret);
@@ -87,27 +84,26 @@ export class NonOptimizedFunctionCallMetric implements Metric {
             ret += nonOptFnCall(ret);
             ret -= nonOptFnCall(ret);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
 
-export class NativeCallMetric implements Metric {
-    name = 'fn.call(obj, val)';
-    timing = Infinity;
+export namespace NativeCallMetric {
+    export const name = 'fn.call(obj, val)';
 
-    run() {
-        function ctxCall(n: number) {
-            //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
-            return this.val + n;
-        }
+    function ctxCall(this: {val: number}, n: number) {
+        //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
+        return this.val + n;
+    }
+
+    export function run() {
+
 
         let obj = {val: 1};
         let ret = 0;
         const start = perfStart();
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += ctxCall.call(obj, i);
             ret -= ctxCall.call(obj, ret);
             ret += ctxCall.call(obj, ret);
@@ -119,27 +115,26 @@ export class NativeCallMetric implements Metric {
             ret += ctxCall.call(obj, ret);
             ret -= ctxCall.call(obj, ret);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class NativeApplyMetric implements Metric {
-    name = 'fn.apply(obj, args)';
-    timing = Infinity;
+export namespace NativeApplyMetric {
+    export const name = 'fn.apply(obj, args)';
 
-    run() {
-        function applyCall(n: number) {
-            //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
-            return this.val + n;
-        }
+    function applyCall(this: {val: number}, n: number) {
+        //for disable inline, over 600bytes function body                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       //
+        return this.val + n;
+    }
+
+
+    export function run() {
 
         let obj = {val: 1};
         let ret = 0;
         const args = [45];
         const start = perfStart();
-        for (let i = 0; i < 1e6; i++) {
+        for (let i = 0; i < 1e5; i++) {
             ret += applyCall.apply(obj, args);
             ret -= applyCall.apply(obj, args);
             ret += applyCall.apply(obj, args);
@@ -151,9 +146,7 @@ export class NativeApplyMetric implements Metric {
             ret += applyCall.apply(obj, args);
             ret -= applyCall.apply(obj, args);
         }
-        const dur = perfEnd(start) / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 

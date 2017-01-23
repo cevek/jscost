@@ -1,50 +1,51 @@
-import {Metric} from '../common/Metric';
 import {perfStart, perfEnd} from '../common/performance';
 
-export class WriteNamedKeyToEmptyObjectMetric implements Metric {
-    name = '{}.key=1';
-    timing = Infinity;
+export namespace WriteNamedKeyToEmptyObjectMetric {
+    export const name = '{}.key=1';
 
-    run() {
-        function setDirectKeys(obj: any, i: number) {
-            obj.k1 = i;
-            obj.k2 = i;
-            obj.k3 = i;
-            obj.k4 = i;
-            obj.k5 = i;
-            obj.k6 = i;
-            obj.k7 = i;
-            obj.k8 = i;
-            obj.k9 = i;
-            obj.k0 = i;
-            return obj;
-        }
+    function setDirectKeys(obj: any, i: number) {
+        obj.k1 = i;
+        obj.k2 = i;
+        obj.k3 = i;
+        obj.k4 = i;
+        obj.k5 = i;
+        obj.k6 = i;
+        obj.k7 = i;
+        obj.k8 = i;
+        obj.k9 = i;
+        obj.k0 = i;
+        return obj;
+    }
+
+    export function run() {
+
+
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e5; i++) {
             ret = setDirectKeys({}, i);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class WriteNumVarKeyToEmptyObjectMetric implements Metric {
-    name = '{}[9]=1';
-    timing = Infinity;
+export namespace WriteNumVarKeyToEmptyObjectMetric {
+    export const name = '{}[9]=1';
 
-    run() {
-        function setNumVar(obj: any, key: number, val: number) {
-            obj[key] = val;
-            return obj;
-        }
+    function setNumVar(obj: any, key: number, val: number) {
+        obj[key] = val;
+        return obj;
+    }
+
+    export function run() {
+
+
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e5; i++) {
-            const obj:any = {};
+            const obj: any = {};
             setNumVar(obj, 1, i);
             setNumVar(obj, 2, i);
             setNumVar(obj, 3, i);
@@ -56,26 +57,25 @@ export class WriteNumVarKeyToEmptyObjectMetric implements Metric {
             setNumVar(obj, 9, i);
             setNumVar(obj, 0, i);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class WriteStrVarKeyToEmptyObjectMetric implements Metric {
-    name = '{}["adgrde"]=1';
-    timing = Infinity;
+export namespace WriteStrVarKeyToEmptyObjectMetric {
+    export const name = '{}["adgrde"]=1';
 
-    run() {
-        function setNumVar(obj: any, key: string, val: number) {
-            obj[key] = val;
-            return obj;
-        }
+    function setNumVar(obj: any, key: string, val: number) {
+        obj[key] = val;
+        return obj;
+    }
+
+    export function run() {
+
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e5; i++) {
-            const obj:any = {};
+            const obj: any = {};
             setNumVar(obj, 'adasgf', i);
             setNumVar(obj, 'atedsf', i);
             setNumVar(obj, 'tty5re', i);
@@ -87,26 +87,26 @@ export class WriteStrVarKeyToEmptyObjectMetric implements Metric {
             setNumVar(obj, 'rejjvo', i);
             setNumVar(obj, 'ads4fk', i);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class WriteNumStrVarKeyToEmptyObjectMetric implements Metric {
-    name = '{}["adgrde" | 4]=1';
-    timing = Infinity;
+export namespace WriteNumStrVarKeyToEmptyObjectMetric {
+    export const name = '{}["adgrde" | 4]=1';
 
-    run() {
-        function setNumVar(obj: any, key: string | number, val: number) {
-            obj[key] = val;
-            return obj;
-        }
+    function setNumVar(obj: any, key: string | number, val: number) {
+        obj[key] = val;
+        return obj;
+    }
+
+    export function run() {
+
+
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e5; i++) {
-            const obj:any = {};
+            const obj: any = {};
             setNumVar(obj, 1, i);
             setNumVar(obj, 'atedsf', i);
             setNumVar(obj, 2, i);
@@ -118,22 +118,23 @@ export class WriteNumStrVarKeyToEmptyObjectMetric implements Metric {
             setNumVar(obj, 5, i);
             setNumVar(obj, 'ads4fk', i);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class WriteNumStrVarKeyToEmptyConstructorMetric implements Metric {
-    name = 'new A()["adgrde" | 4]=1';
-    timing = Infinity;
+export namespace WriteNumStrVarKeyToEmptyConstructorMetric {
+    export const name = 'new A()["adgrde" | 4]=1';
+    const A: any = function A() {}
 
-    run() {
-        const A:any = function A() {}
-        function setNumVar(obj: any, key: string | number, val: number) {
-            obj[key] = val;
-            return obj;
-        }
+    function setNumVar(obj: any, key: string | number, val: number) {
+        obj[key] = val;
+        return obj;
+    }
+
+    export function run() {
+
+
+
         // const objectCreateTime = {};
         const start = perfStart();
         let ret = 0;
@@ -150,25 +151,24 @@ export class WriteNumStrVarKeyToEmptyConstructorMetric implements Metric {
             setNumVar(ret, 5, i);
             setNumVar(ret, 'ads4fk', i);
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
-export class WriteNumStrVarKeyToEmptyHashTableMetric implements Metric {
-    name = '{}["adgrde" | 4]=1 hashtable';
-    timing = Infinity;
+export namespace WriteNumStrVarKeyToEmptyHashTableMetric {
+    export const name = '{}["adgrde" | 4]=1 hashtable';
 
-    run() {
-        function setNumVar(obj: any, key: string | number, val: number) {
-            obj[key] = val;
-            return obj;
-        }
+    function setNumVar(obj: any, key: string | number, val: number) {
+        obj[key] = val;
+        return obj;
+    }
+
+    export function run() {
+
 
         const startHashTableCreate = perfStart();
         for (let i = 0; i < 1000; i++) {
-            const obj:any = {x:1};
+            const obj: any = {x: 1};
             delete obj.x;
         }
         const durHashTableCreate = perfEnd(startHashTableCreate) * 1000;
@@ -176,7 +176,7 @@ export class WriteNumStrVarKeyToEmptyHashTableMetric implements Metric {
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e5; i++) {
-            const obj:any = {x:1};
+            const obj: any = {x: 1};
             delete obj.x;
             setNumVar(obj, 1, i);
             setNumVar(obj, 'atedsf', i);
@@ -189,9 +189,7 @@ export class WriteNumStrVarKeyToEmptyHashTableMetric implements Metric {
             setNumVar(obj, 5, i);
             setNumVar(obj, 'ads4fk', i);
         }
-        const dur = perfEnd(start) - durHashTableCreate / 10;
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start) - durHashTableCreate / 10;
     }
 }
 

@@ -1,19 +1,15 @@
-import {Metric} from '../common/Metric';
 import {perfStart, perfEnd} from '../common/performance';
 
-export class EmptyMetric implements Metric {
-    name = 'empty';
-    timing = Infinity;
+export namespace EmptyMetric {
+    export const name = 'empty';
 
-    run() {
+    export function run() {
         const start = perfStart();
         let ret = 0;
         for (let i = 0; i < 1e6; i++) {
             ret = i;
         }
-        const dur = perfEnd(start);
-        this.timing = Math.min(this.timing, dur);
-        return ret;
+        return perfEnd(start);
     }
 }
 
